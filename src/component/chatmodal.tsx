@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Button } from 'react-native';
-
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Image} from 'react-native';
+import { SCREEN_HEIGHT,SCREEN_WIDTH } from '../utils/diemention';
+import { Icons } from '../assets';
 const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
   return (
     <Modal
@@ -10,21 +11,45 @@ const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
       onRequestClose={() => setModalVisible(false)}
     >
       <View style={styles.modalView}>
+        <View style={styles.optioncontainer}>
+            
+            <TouchableOpacity
+          onPress={() => {
+            setModalVisible(false);
+            navigation.navigate('NewChat');
+          }}
+        >
+            <View style={styles.option}>
+                <Image source={Icons.newchat} style={styles.img}/>
+          <Text style={styles.text}>New Chat</Text>
+
+          </View>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setModalVisible(false);
             navigation.navigate('NewChat');
           }}
         >
-          <Text style={styles.modalOption}>New Chat</Text>
+            <View style={styles.option}>
+                <Image source={Icons.newgroup} style={styles.img}/>
+          <Text style={styles.text}>New Group Chat</Text>
+
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setModalVisible(false)}>
-          <Text style={styles.modalOption}>New Group Chat</Text>
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(false);
+            navigation.navigate('NewChat');
+          }}
+        >
+            <View style={styles.option}>
+                <Image source={Icons.announcement} style={styles.img}/>
+          <Text style={styles.text}>New Announcement</Text>
+
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setModalVisible(false)}>
-          <Text style={styles.modalOption}>New Announcement</Text>
-        </TouchableOpacity>
-        <Button title="Close" onPress={() => setModalVisible(false)} />
+        </View>
       </View>
     </Modal>
   );
@@ -37,14 +62,44 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     backgroundColor: 'rgba(0,0,0,0.5)',
-    padding: 20,
+    
+  },
+  optioncontainer:
+  {
+    height:SCREEN_HEIGHT-600,
+    width:SCREEN_WIDTH,
+    position:'absolute',
+    backgroundColor: '#fff',
+    borderTopRightRadius:20,
+    borderTopLeftRadius:20,
+    justifyContent:'flex-end'
+    
+  },
+  option:
+  {
+    flexDirection:'row',
+    padding:20,
+    height:60,
+    borderColor:"#e8ebe9",
+    borderWidth:1,
+    marginBottom:20,
   },
   modalOption: {
     fontSize: 18,
-    padding: 15,
+    
     backgroundColor: '#fff',
-    marginBottom: 10,
+    borderWidth:1,
+    borderColor:"#e8ebe9",
     textAlign: 'center',
-    borderRadius: 5,
+    height:40,
   },
+  img:{
+    height:30,
+    width:30,
+  },
+  text:
+  {
+    fontSize:18,
+    marginLeft:10,
+  }
 });

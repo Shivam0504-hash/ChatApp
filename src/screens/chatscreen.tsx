@@ -1,15 +1,17 @@
 import { View, Text,StyleSheet, Touchable, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React,{useState} from 'react'
 import Header from '../component/header'
 import Searchbox from '../component/searchbox'
+import ChatModal from '../component/chatmodal'
 const ChatScreen= ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
      <Header text='Meaasege'/>
      <Searchbox/>
      <View style={styles.container}>
      <Text style={styles.text}>No chats,yet!</Text>
-     <TouchableOpacity>
+     <TouchableOpacity  onPress={() => setModalVisible(!modalVisible)}>
       <View style={styles.button}>
         <Text style={styles.buttontext}>Start Chat</Text>
       </View>
