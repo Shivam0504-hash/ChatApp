@@ -11,6 +11,7 @@ const Icons = {
     newchat:require('./icons/newchat.png'),
     newgroup:require('./icons/newgroup.png'),
     announcement:require('./icons/announcement.png'),
+    backicon2:require('./icons/backicon2.png'),
 };
 const Images = {
 

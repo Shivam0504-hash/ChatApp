@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Image} from 'react-native';
 import { SCREEN_HEIGHT,SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
+import { ScreenNames } from '../navigator/screenNames';
 const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
   return (
     <Modal
@@ -16,7 +17,7 @@ const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
             <TouchableOpacity
           onPress={() => {
             setModalVisible(false);
-            navigation.navigate('NewChat');
+            navigation.navigate(ScreenNames.NewChatScreen);
           }}
         >
             <View style={styles.option}>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   },
   optioncontainer:
   {
-    height:SCREEN_HEIGHT-600,
+    height:SCREEN_HEIGHT-580,
     width:SCREEN_WIDTH,
     position:'absolute',
     backgroundColor: '#fff',
