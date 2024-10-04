@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
         backgroundColor: "#fff",
-        width:SCREEN_WIDTH-34,
+        width: SCREEN_WIDTH - 34,
     },
     contactText: {
         fontSize: 18,
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
         marginTop: SCREEN_HEIGHT * 0.07746478873,
         height: 60,
         alignItems: 'center',
-        marginBottom:15,
-        
+        marginBottom: 15,
+
     },
     back: {
         height: 20,
