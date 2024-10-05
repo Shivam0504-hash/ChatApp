@@ -36,7 +36,7 @@ const ChatScreen = ({ navigation }) => {
 
   return (
     <View>
-      <Header text='Messages' />
+      <Header text='Messages' setModalVisible={setModalVisible} />
       <Searchbox />
       <View style={styles.container}>
         {chats.length === 0 ? (
