@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, StyleSheet, TouchableOpacity, Text, Image, } from 'react-native';
+import { View, FlatList, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
@@ -16,6 +16,7 @@ const getRandomColor = () => {
 
 const NewChatScreen = ({ navigation }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -27,43 +28,57 @@ const NewChatScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* Back button and Search Input */}
       <View style={styles.row}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <View style={styles.iconconatiner}>
-          <Image source={Icons.backicon2} style={styles.back} />
-        </View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <View style={styles.iconconatiner}>
+            <Image source={Icons.backicon2} style={styles.back} />
+          </View>
         </TouchableOpacity>
         <TextInput
-          label="Search here..."
+          label= {isFocused ? '' : "Search here..."}
           value={searchTerm}
-          mode="outlined"
+          mode="flat"
           style={styles.input}
           onChangeText={setSearchTerm}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)} 
           left={
             <TextInput.Icon
-              icon={() => (
-                <Image source={Icons.search} style={styles.icon} />
-              )}
+              icon={() => <Image source={Icons.search} style={styles.icon} />}
             />
           }
           outlineColor='#E7EBF3'
+          underlineStyle={
+            {display:'none'}
+        }
         />
       </View>
 
-      <FlatList
-        data={filteredContacts}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => onSelectContact(item)}>
-            <View style={styles.contactItem}>
-              <View style={[styles.initialsCircle, { backgroundColor: getRandomColor() }]}>
-                <Text style={styles.initialsText}>{getInitials(item.name)}</Text>
-              </View>
-              <Text style={styles.contactText}>{item.name}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+      {/* Conditional rendering based on search input and results */}
+      {searchTerm === '' ? null : (
+        filteredContacts.length > 0 ? (
+          <FlatList
+            data={filteredContacts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => onSelectContact(item)}>
+                <View style={styles.contactItem}>
+                  <View style={[styles.initialsCircle, { backgroundColor: getRandomColor() }]}>
+                    <Text style={styles.initialsText}>{getInitials(item.name)}</Text>
+                  </View>
+                  <Text style={styles.contactText}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <View style={styles.noContactsContainer}>
+            <Image source={Icons.nocontact} style={styles.noContactsImage} />
+            <Text style={styles.noContactsText}>No results found</Text>
+          </View>
+        )
+      )}
     </View>
   );
 };
@@ -106,27 +121,43 @@ const styles = StyleSheet.create({
     height: 24,
   },
   input: {
-    height: 48,
+    height: SCREEN_HEIGHT*0.05633802816,
     width: SCREEN_WIDTH * 0.70572519084,
     marginLeft: SCREEN_WIDTH * 0.07071246819,
     justifyContent: 'center',
+    backgroundColor:'#fff',
   },
   row: {
     flexDirection: 'row',
     marginTop: SCREEN_HEIGHT * 0.07746478873,
-    height: 60,
-    alignItems: 'center',
+    height:SCREEN_HEIGHT*0.05633802816,
     marginBottom: 15,
+    // backgroundColor:"red"
   },
   back: {
     height: 20,
     width: 20,
   },
   iconconatiner: {
-    height: 52,
+    height: SCREEN_HEIGHT*0.05633802816,
     width: 52,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+    
+  },
+  noContactsContainer: {
+    alignItems: 'center',
+    marginTop: SCREEN_HEIGHT*0.14929577464,
+  },
+  noContactsImage: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain',
+  },
+  noContactsText: {
+    marginTop: 10,
+    fontSize: 18,
+    color: '#555',
   },
 });

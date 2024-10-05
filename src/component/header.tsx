@@ -8,7 +8,7 @@ const Header = ({ text, setModalVisible }) => { // Receive setModalVisible
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={{ flexDirection: 'row' }}>
-          <Image source={Icons.backarrow} style={styles.img} />
+          {/* <Image source={Icons.backarrow} style={styles.img} /> */}
           <Text style={styles.headertext}>{text}</Text>
         </View>
         <TouchableOpacity onPress={() => setModalVisible(true)}> 
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.10178117048,
   },
   headertext: {
-    fontSize: 18,
+    fontSize: SCREEN_HEIGHT*0.02112676056,
     lineHeight: 20,
     fontWeight: 'semibold',
     color: '#FFFFFF',

@@ -12,6 +12,9 @@ const Icons = {
     newgroup:require('./icons/newgroup.png'),
     announcement:require('./icons/announcement.png'),
     backicon2:require('./icons/backicon2.png'),
+    nochat:require('./icons/nochat.png'),
+    nocontact:require('./icons/nocontact.png'),
+    dot:require('./icons/dot.png'),
 };
 const Images = {
 

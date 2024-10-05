@@ -6,16 +6,19 @@ import { Icons } from '../assets';
 
 const Searchbox = () => {
   const [search, setSearch] = useState(''); 
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={styles.container}>
       <TextInput
-        label={"Search Message"}
+        label={isFocused ? '' : 'Search Message'}
         value={search} 
         editable={true} 
-        mode="outlined"
+        mode="flat"
         style={styles.input}
         onChangeText={text => setSearch(text)} 
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)} 
         left={
           <TextInput.Icon
             icon={() => (
@@ -24,6 +27,9 @@ const Searchbox = () => {
           />
         }
         outlineColor='#E7EBF3'
+        underlineStyle={
+          {display:'none'}
+      }
       />
     </View>
   );
