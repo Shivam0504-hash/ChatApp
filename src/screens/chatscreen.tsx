@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     backgroundColor: "#fff",
-    width: '100%',
+    width:SCREEN_WIDTH*0.89857506361,
   },
   initialsCircle: {
     width: 40,

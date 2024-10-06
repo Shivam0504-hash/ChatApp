@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ChatOptionsModal from '../component/chatoptionmodal';
 
 interface ChatRoomScreenProps {
   route: {
@@ -15,9 +16,21 @@ interface ChatRoomScreenProps {
   onNewChat: (contact: string) => void; // Add this line
 }
 
+// Helper functions to get initials and random color (reused from NewChatScreen)
+const getInitials = (name: string) => {
+  return name.split(' ').map((n) => n[0]).join('');
+};
+
+const getRandomColor = () => {
+  const colors = ['#FFB6C1', '#8A2BE2', '#5F9EA0', '#FF6347', '#FFD700', '#40E0D0'];
+  return colors[Math.floor(Math.random() * colors.length)];
+};
+
 const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNewChat }) => {
   const contact = route?.params?.contact || "default_contact";
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const[modalVisible,setModalVisible]=useState(false);
+  const [initialColor] = useState(getRandomColor()); // Assign color once
 
   // Default receiver messages
   const defaultMessages: IMessage[] = [
@@ -65,13 +78,24 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.row}>
+          {/* Back Icon */}
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <View style={styles.iconcontainer}>
               <Image source={Icons.backicon2} style={styles.Icon} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <View style={[styles.iconcontainer,{marginLeft:SCREEN_WIDTH*0.71269720101}]}>
+
+          {/* Contact Initials */}
+          <View style={[styles.initialsCircle, { backgroundColor: initialColor }]}>
+            <Text style={styles.initialsText}>{getInitials(contact)}</Text>
+          </View>
+
+          {/* Contact Full Name */}
+          <Text style={styles.contactName}>{contact}</Text>
+
+          {/* Dots Icon */}
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <View style={[styles.iconcontainer, { marginLeft:SCREEN_WIDTH*0.24173027989 }]}>
               <Image source={Icons.dot} style={styles.Icon} />
             </View>
           </TouchableOpacity>
@@ -84,6 +108,10 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
         user={{
           _id: 1,
         }}
+      />
+       <ChatOptionsModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
       />
     </View>
   );
@@ -98,15 +126,15 @@ const styles = StyleSheet.create({
   },
   header: {
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT *0.14436619718,
+    height: SCREEN_HEIGHT * 0.14436619718,
     backgroundColor: "#F8F9F9"
   },
   row: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginTop: SCREEN_HEIGHT * 0.07394366197,
     paddingHorizontal: SCREEN_WIDTH * 0.04071246819,
-    width:SCREEN_WIDTH,
-    // backgroundColor:'red'
+    width: SCREEN_WIDTH,
   },
   iconcontainer: {
     height: 40,
@@ -119,5 +147,24 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: 'contain',
-  }
+  },
+  initialsCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  initialsText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  contactName: {
+    fontSize: 18,
+    marginLeft: 10,
+    fontWeight: '600',
+    color: '#3A4F5F',
+  },
 });

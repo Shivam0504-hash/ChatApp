@@ -15,6 +15,11 @@ const Icons = {
     nochat:require('./icons/nochat.png'),
     nocontact:require('./icons/nocontact.png'),
     dot:require('./icons/dot.png'),
+    eye:require('./icons/eye.png'),
+    pinchat:require('./icons/pinchat.png'),
+    searchchat:require('./icons/search.png'),
+    delete:require('./icons/delete.png'),
+
 };
 const Images = {
 
