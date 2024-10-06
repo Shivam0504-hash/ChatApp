@@ -4,7 +4,16 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
 import { ScreenNames } from '../navigator/screenNames';
 
-const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
+// Define props interface
+interface ChatModalProps {
+  modalVisible: boolean;
+  setModalVisible: (visible: boolean) => void;
+  navigation: {
+    navigate: (screen: string) => void;
+  };
+}
+
+const ChatModal: React.FC<ChatModalProps> = ({ modalVisible, setModalVisible, navigation }) => {
   return (
     <Modal
       animationType="slide"
@@ -14,7 +23,7 @@ const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
     >
       <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={styles.modalView}>
-          <View style={styles.optioncontainer} >
+          <View style={styles.optioncontainer}>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
@@ -29,7 +38,7 @@ const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
-                navigation.navigate('NewChat');
+                navigation.navigate('NewGroupChat'); // Updated navigation name to be consistent
               }}
             >
               <View style={styles.option}>
@@ -40,10 +49,10 @@ const ChatModal = ({ modalVisible, setModalVisible, navigation }) => {
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
-                navigation.navigate('NewChat');
+                navigation.navigate('NewAnnouncement'); // Updated navigation name to be consistent
               }}
             >
-              <View style={[styles.option,{marginBottom:60}]}>
+              <View style={[styles.option, { marginBottom: 60 }]}>
                 <Image source={Icons.announcement} style={styles.img} />
                 <Text style={styles.text}>New Announcement</Text>
               </View>
@@ -64,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   optioncontainer: {
-    height: SCREEN_HEIGHT*0.31924882629,
+    height: SCREEN_HEIGHT * 0.31924882629,
     width: SCREEN_WIDTH,
     position: 'absolute',
     backgroundColor: '#fff',
@@ -77,7 +86,6 @@ const styles = StyleSheet.create({
     padding: 20,
     height: 60,
     borderColor: "#e8ebe9",
-    // borderWidth: 1,
     marginBottom: 10,
   },
   img: {

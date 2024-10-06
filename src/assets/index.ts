@@ -19,6 +19,12 @@ const Icons = {
     pinchat:require('./icons/pinchat.png'),
     searchchat:require('./icons/search.png'),
     delete:require('./icons/delete.png'),
+    thumbsUp:require('./icons/thumbsUp.png'),
+    party:require('./icons/party.png'),
+    heart:require('./icons/heart.png'),
+    laugh:require('./icons/laugh.png'),
+    thumbsdown:require('./icons/thumbs.png'),
+
 
 };
 const Images = {

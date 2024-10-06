@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList,Image} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Header from '../component/header';
 import Searchbox from '../component/searchbox';
@@ -8,7 +8,20 @@ import contacts from '../assets/contacts.json';
 import { Icons } from '../assets';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 
-const getInitials = (name) => {
+interface Contact {
+  name: string;
+}
+
+interface Chat {
+  name: string;
+  messages: any[]; // Replace 'any' with the specific message type if available
+}
+
+interface ChatScreenProps {
+  navigation: any; // You can define a more specific type based on your navigation setup
+}
+
+const getInitials = (name: string) => {
   return name.split(' ').map((n) => n[0]).join('');
 };
 
@@ -17,13 +30,13 @@ const getRandomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const ChatScreen = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [chats, setChats] = useState([]);
+const ChatScreen: React.FC<ChatScreenProps> = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [chats, setChats] = useState<Chat[]>([]);
 
   useEffect(() => {
     const fetchChats = async () => {
-      const chatPromises = contacts.map(async (contact) => {
+      const chatPromises = contacts.map(async (contact: Contact) => {
         const messages = await AsyncStorage.getItem(contact.name);
         return { name: contact.name, messages: messages ? JSON.parse(messages) : [] };
       });
@@ -43,7 +56,7 @@ const ChatScreen = ({ navigation }) => {
       <View style={styles.container}>
         {chats.length === 0 ? (
           <>
-            <Image source={Icons.nochat} style={styles.img}/>
+            <Image source={Icons.nochat} style={styles.img} />
             <Text style={styles.text}>No chats yet!</Text>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
               <View style={styles.button}>

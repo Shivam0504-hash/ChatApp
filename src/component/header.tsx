@@ -3,12 +3,16 @@ import React from 'react';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
 
-const Header = ({ text, setModalVisible }) => { // Receive setModalVisible
+interface HeaderProps {
+  text: string;
+  setModalVisible: (visible: boolean) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ text, setModalVisible }) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={{ flexDirection: 'row' }}>
-          {/* <Image source={Icons.backarrow} style={styles.img} /> */}
           <Text style={styles.headertext}>{text}</Text>
         </View>
         <TouchableOpacity onPress={() => setModalVisible(true)}> 

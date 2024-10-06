@@ -5,30 +5,42 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
 import contacts from '../assets/contacts.json';
 
-const getInitials = (name) => {
+// Define types for your contact data
+interface Contact {
+  id: string; // Assuming id is a string
+  name: string;
+}
+
+interface NewChatScreenProps {
+  navigation: {
+    navigate: (screen: string, params: { contact: string }) => void;
+    goBack: () => void;
+  };
+}
+
+const getInitials = (name: string): string => {
   return name.split(' ').map((n) => n[0]).join('');
 };
 
-const getRandomColor = () => {
+const getRandomColor = (): string => {
   const colors = ['#FFB6C1', '#8A2BE2', '#5F9EA0', '#FF6347', '#FFD700', '#40E0D0'];
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const NewChatScreen = ({ navigation }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
+const NewChatScreen: React.FC<NewChatScreenProps> = ({ navigation }) => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  const filteredContacts = contacts.filter((contact) =>
+  const filteredContacts = (contacts as Contact[]).filter((contact) =>
     contact.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const onSelectContact = (contact) => {
+  const onSelectContact = (contact: Contact) => {
     navigation.navigate('ChatRoomScreen', { contact: contact.name });
   };
 
   return (
     <View style={styles.container}>
-      {/* Back button and Search Input */}
       <View style={styles.row}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <View style={styles.iconconatiner}>
@@ -36,7 +48,7 @@ const NewChatScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <TextInput
-          label= {isFocused ? '' : "Search here..."}
+          label={isFocused ? '' : "Search here..."}
           value={searchTerm}
           mode="flat"
           style={styles.input}
@@ -49,13 +61,12 @@ const NewChatScreen = ({ navigation }) => {
             />
           }
           outlineColor='#E7EBF3'
-          underlineStyle={
-            {display:'none'}
-        }
+          underlineStyle={{
+            display: 'none',
+          }}
         />
       </View>
 
-      {/* Conditional rendering based on search input and results */}
       {searchTerm === '' ? null : (
         filteredContacts.length > 0 ? (
           <FlatList
@@ -121,34 +132,32 @@ const styles = StyleSheet.create({
     height: 24,
   },
   input: {
-    height: SCREEN_HEIGHT*0.05633802816,
+    height: SCREEN_HEIGHT * 0.05633802816,
     width: SCREEN_WIDTH * 0.70572519084,
     marginLeft: SCREEN_WIDTH * 0.07071246819,
     justifyContent: 'center',
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
   },
   row: {
     flexDirection: 'row',
     marginTop: SCREEN_HEIGHT * 0.07746478873,
-    height:SCREEN_HEIGHT*0.05633802816,
+    height: SCREEN_HEIGHT * 0.05633802816,
     marginBottom: 15,
-    // backgroundColor:"red"
   },
   back: {
     height: 20,
     width: 20,
   },
   iconconatiner: {
-    height: SCREEN_HEIGHT*0.05633802816,
+    height: SCREEN_HEIGHT * 0.05633802816,
     width: 52,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
   noContactsContainer: {
     alignItems: 'center',
-    marginTop: SCREEN_HEIGHT*0.14929577464,
+    marginTop: SCREEN_HEIGHT * 0.14929577464,
   },
   noContactsImage: {
     width: 150,
