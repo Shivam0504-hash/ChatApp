@@ -29,6 +29,7 @@ const Icons = {
     copy:require('./icons/copy.png'),
     starchat:require('./icons/starchat.png'),
     edit:require('./icons/edit.png'),
+    send:require('./icons/send.png'),
     
 
     

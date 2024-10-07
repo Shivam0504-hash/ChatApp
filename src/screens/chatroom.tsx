@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GiftedChat, IMessage, Bubble } from 'react-native-gifted-chat';
+import { GiftedChat, IMessage, Bubble, Send } from 'react-native-gifted-chat';
 import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
@@ -21,7 +21,7 @@ interface ChatRoomScreenProps {
     };
   };
   navigation: any;
-  onNewChat: (contact: string) => void;
+  // onNewChat: (contact: string) => void;
 }
 
 const getInitials = (name: string) => {
@@ -33,7 +33,7 @@ const getRandomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNewChat }) => {
+const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation,}) => {
   const contact = route?.params?.contact || "default_contact";
   const [messages, setMessages] = useState<CustomMessage[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -74,7 +74,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
 
     try {
       await AsyncStorage.setItem(contact, JSON.stringify(updatedMessages));
-      onNewChat(contact); 
+      // onNewChat(contact); 
     } catch (error) {
       console.log('Error saving messages: ', error);
     }
@@ -83,6 +83,13 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
   const onMessageLongPress = (context: any, message: CustomMessage) => {
     setSelectedMessage(message);
     setReactionModalVisible(true);
+  };
+  const renderSend = (props: any) => {
+    return (
+      <Send {...props}>
+        <Image source={Icons.send} style={styles.send} />
+      </Send>
+    );
   };
 
   const onReactionSelect = (reaction: string) => {
@@ -179,6 +186,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
             </View>
           );
         }}
+        renderSend={renderSend}
       />
 
       {selectedMessage && (
@@ -253,4 +261,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FF6347',
   },
+  send:
+  {
+    height:24,
+    width:24,
+    resizeMode:'contain',
+    marginRight:20,
+    marginBottom:10
+  }
 });
