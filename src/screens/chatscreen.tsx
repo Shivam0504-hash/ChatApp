@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
-import React, { useState, useEffect,} from 'react';
+import React, { useState, useEffect} from 'react';
 import Header from '../component/header';
 import Searchbox from '../component/searchbox';
 import ChatModal from '../component/chatmodal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import contacts from '../assets/contacts.json';
 import { Icons } from '../assets';
+import { useIsFocused } from '@react-navigation/native';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 
 interface Contact {
@@ -33,6 +34,7 @@ const getRandomColor = () => {
 const ChatScreen: React.FC<ChatScreenProps> = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [chats, setChats] = useState<Chat[]>([]);
+  const isFocused=useIsFocused()
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -47,7 +49,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ navigation }) => {
     };
 
     fetchChats();
-  }, []);
+  }, [isFocused]);
 
   return (
     <View>

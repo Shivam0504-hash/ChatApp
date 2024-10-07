@@ -193,17 +193,21 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation,}) =>
             }}
           />
         )}
-        renderMessageText={(props) => {
-          const reaction = (props.currentMessage as CustomMessage).metadata?.reaction;
-          return (
-            <View>
-              <Text>{props.currentMessage.text}</Text>
-              {reaction && (
-                <Text style={styles.reactionText}>{reaction}</Text>
-              )}
-            </View>
-          );
-        }}
+        // renderMessageText={(props) => {
+        //   const reaction = (props.currentMessage as CustomMessage).metadata?.reaction;
+        //   return (
+        //     <View>
+        //        {reaction && (
+        //         <Text style={styles.reactionText}>{reaction}</Text>
+        //       )}
+        //       <Text>{props.currentMessage.text}</Text>
+        //       {/* {reaction && (
+        //         <Text style={styles.reactionText}>{reaction}</Text>
+        //       )}
+        //        */}
+        //     </View>
+        //   );
+        // }}
         renderSend={renderSend}
       />
 
@@ -279,9 +283,9 @@ const styles = StyleSheet.create({
     color: '#3A4F5F',
   },
   reactionText: {
-    marginTop: 5,
     fontSize: 16,
-    color: '#FF6347',
+    backgroundColor:"white",
+    width:25,
   },
   send:
   {
