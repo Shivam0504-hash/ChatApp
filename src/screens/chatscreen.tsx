@@ -14,11 +14,11 @@ interface Contact {
 
 interface Chat {
   name: string;
-  messages: any[]; // Replace 'any' with the specific message type if available
+  messages: any[]; 
 }
 
 interface ChatScreenProps {
-  navigation: any; // You can define a more specific type based on your navigation setup
+  navigation: any; 
 }
 
 const getInitials = (name: string) => {

@@ -5,9 +5,9 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
 import contacts from '../assets/contacts.json';
 
-// Define types for your contact data
+
 interface Contact {
-  id: string; // Assuming id is a string
+  id: string; 
   name: string;
 }
 

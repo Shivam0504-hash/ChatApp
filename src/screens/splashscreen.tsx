@@ -5,7 +5,11 @@ import { ScreenNames } from "../navigator/screenNames";
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const SplashScreen = ({ navigation}) => {
+interface SplashScreenProps {
+    navigation: any;
+  }
+
+  const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
  
    
     const [isVisible, setIsVisible] = useState(true);

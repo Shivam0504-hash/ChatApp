@@ -24,6 +24,15 @@ const Icons = {
     heart:require('./icons/heart.png'),
     laugh:require('./icons/laugh.png'),
     thumbsdown:require('./icons/thumbs.png'),
+    reply:require('./icons/reply.png'),
+    forward:require('./icons/forward.png'),
+    copy:require('./icons/copy.png'),
+    starchat:require('./icons/starchat.png'),
+    edit:require('./icons/edit.png'),
+    
+
+    
+
 
 
 };

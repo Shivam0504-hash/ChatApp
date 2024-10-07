@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ChatOptionsModal from '../component/chatoptionmodal';
 import ReactionModal from '../component/reactionmodal';
 
-// Extend IMessage to include metadata
+
 interface CustomMessage extends IMessage {
   metadata?: {
     reaction?: string;
@@ -40,6 +40,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
   const [reactionModalVisible, setReactionModalVisible] = useState<boolean>(false);
   const [selectedMessage, setSelectedMessage] = useState<CustomMessage | null>(null);
   const [initialColor] = useState<string>(getRandomColor());
+  
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -73,7 +74,7 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
 
     try {
       await AsyncStorage.setItem(contact, JSON.stringify(updatedMessages));
-      onNewChat(contact); // Notify ChatScreen
+      onNewChat(contact); 
     } catch (error) {
       console.log('Error saving messages: ', error);
     }
@@ -139,19 +140,25 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation, onNe
             {...props}
             wrapperStyle={{
               left: {
-                backgroundColor: '#F0F0F0',
-                borderRadius: 15,
+                backgroundColor: '#F8F9F9',
+                borderTopLeftRadius:0,
+                borderTopRightRadius:10,
+                borderBottomLeftRadius:10,
+                borderBottomRightRadius:10,
                 padding: 5,
               },
               right: {
-                backgroundColor: '#007AFF',
-                borderRadius: 15,
+                backgroundColor: '#2A7CBC',
+                borderTopLeftRadius:10,
+                borderTopRightRadius:0,
+                borderBottomLeftRadius:10,
+                borderBottomRightRadius:10,
                 padding: 5,
               },
             }}
             textStyle={{
               left: {
-                color: '#000',
+                color: "#3A4F5F",
                 fontSize: 16,
               },
               right: {
