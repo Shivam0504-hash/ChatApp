@@ -8,11 +8,12 @@ interface ReactionModalProps {
   message: string; // The message text for which the reaction modal is triggered
   onClose: () => void; // Close the modal
   onReactionSelect: (reaction: string) => void; // Handle reaction selection
+  onDelete: () => void;
 }
 
 const reactions = ['👍', '❤️', '😂', '🎉', '👎'];
 
-const ReactionModal: React.FC<ReactionModalProps> = ({ visible, message, onClose, onReactionSelect }) => {
+const ReactionModal: React.FC<ReactionModalProps> = ({ visible, message, onClose, onReactionSelect,onDelete }) => {
   return (
     <Modal
       transparent
@@ -78,7 +79,7 @@ const ReactionModal: React.FC<ReactionModalProps> = ({ visible, message, onClose
                 </View>
                 <View style={styles.line} />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={onDelete}>
                 <View style={styles.row}>
                 <Image source={Icons.delete} style={styles.img} />
                 <Text style={[styles.optionText, { color: 'red' }]}>Delete</Text>

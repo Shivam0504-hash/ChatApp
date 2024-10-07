@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface DeleteChatModalProps {
   visible: boolean;
@@ -9,7 +10,8 @@ interface DeleteChatModalProps {
   headerText: string; 
   subText: string; 
   ButtonText1: string; 
-  ButtonText2: string; 
+  ButtonText2: string;
+  onDelete:()=>any;
 }
 
 const DeleteChatModal: React.FC<DeleteChatModalProps> = ({
@@ -20,6 +22,7 @@ const DeleteChatModal: React.FC<DeleteChatModalProps> = ({
   subText,
   ButtonText1,
   ButtonText2,
+  onDelete,
 }) => {
   return (
     <Modal
@@ -40,7 +43,7 @@ const DeleteChatModal: React.FC<DeleteChatModalProps> = ({
               <Text style={styles.cancelButtonText}>{ButtonText1}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.deleteButton}>
+            <TouchableOpacity onPress={onDelete}  style={styles.deleteButton}>
               <Text style={styles.deleteButtonText}>{ButtonText2}</Text>
             </TouchableOpacity>
           </View>

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,} from 'react';
 import Header from '../component/header';
 import Searchbox from '../component/searchbox';
 import ChatModal from '../component/chatmodal';

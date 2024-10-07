@@ -3,15 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet, Modal, Image, TouchableWithou
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
 import { Icons } from '../assets';
 import DeleteChatModal from './deletechatmodal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScreenNames } from '../navigator/screenNames';
 
 interface ChatOptionsModalProps {
   visible: boolean;
   onClose: () => void;
+  contactname:string;
+  navigation:any
 }
 
 const ChatOptionsModal: React.FC<ChatOptionsModalProps> = ({
   visible,
   onClose,
+  contactname,
+  navigation,
 }) => {
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
@@ -19,6 +25,18 @@ const ChatOptionsModal: React.FC<ChatOptionsModalProps> = ({
     setDeleteModalVisible(true);
     onClose(); // Close the options modal when deleting
   };
+
+  const onDeleteChat = async () => {
+    try {
+      await AsyncStorage.removeItem(contactname); // Remove the chat for this contact from AsyncStorage
+      // setMessages([]); // Clear the messages state
+      setDeleteModalVisible(false); // Close the modal
+      navigation.goBack(); // Navigate back to the previous screen
+    } catch (error) {
+      console.log('Error deleting chat: ', error);
+    }
+  };
+  
 
   return (
     <>
@@ -76,6 +94,7 @@ const ChatOptionsModal: React.FC<ChatOptionsModalProps> = ({
         subText="Are you sure you want to delete this chat?"
         ButtonText1="No, Cancel"
         ButtonText2="Yes, Delete"
+        onDelete={onDeleteChat}     
       />
     </>
   );

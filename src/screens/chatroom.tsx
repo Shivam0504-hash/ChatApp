@@ -79,6 +79,8 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation,}) =>
       console.log('Error saving messages: ', error);
     }
   };
+  // console.log(contact,messages[0]._id,messages);
+  
 
   const onMessageLongPress = (context: any, message: CustomMessage) => {
     setSelectedMessage(message);
@@ -91,6 +93,22 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation,}) =>
       </Send>
     );
   };
+  const deleteMessage = async () => {
+    if (selectedMessage) {
+      const updatedMessages = messages.filter(msg => msg._id !== selectedMessage._id);
+      setMessages(updatedMessages);
+      
+      try {
+        await AsyncStorage.setItem(contact, JSON.stringify(updatedMessages));
+      } catch (error) {
+        console.log('Error deleting message: ', error);
+      }
+      
+      setReactionModalVisible(false); // Close the modal after deletion
+    }
+  };
+
+  
 
   const onReactionSelect = (reaction: string) => {
     if (selectedMessage) {
@@ -195,12 +213,16 @@ const ChatRoomScreen: React.FC<ChatRoomScreenProps> = ({ route, navigation,}) =>
           message={selectedMessage.text}
           onClose={() => setReactionModalVisible(false)}
           onReactionSelect={onReactionSelect}
+          onDelete={deleteMessage}
         />
       )}
 
       <ChatOptionsModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
+        contactname={contact}
+        navigation={navigation}
+        
       />
     </View>
   );
