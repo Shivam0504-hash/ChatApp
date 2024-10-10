@@ -30,6 +30,7 @@ const Icons = {
     starchat:require('./icons/starchat.png'),
     edit:require('./icons/edit.png'),
     send:require('./icons/send.png'),
+    addicon:require('./icons/addicon.png'),
     
 
     

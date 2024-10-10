@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../component/header';
 import Searchbox from '../component/searchbox';
 import ChatModal from '../component/chatmodal';
@@ -8,18 +8,22 @@ import contacts from '../assets/contacts.json';
 import { Icons } from '../assets';
 import { useIsFocused } from '@react-navigation/native';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../utils/diemention';
+import moment from 'moment';
+
 
 interface Contact {
   name: string;
+  
 }
 
 interface Chat {
   name: string;
-  messages: any[]; 
+  messages: any[];
+  
 }
 
 interface ChatScreenProps {
-  navigation: any; 
+  navigation: any;
 }
 
 const getInitials = (name: string) => {
@@ -34,7 +38,7 @@ const getRandomColor = () => {
 const ChatScreen: React.FC<ChatScreenProps> = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [chats, setChats] = useState<Chat[]>([]);
-  const isFocused=useIsFocused()
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -42,6 +46,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ navigation }) => {
         const messages = await AsyncStorage.getItem(contact.name);
         return { name: contact.name, messages: messages ? JSON.parse(messages) : [] };
       });
+      // console.log(chats[0].messages[0].createdAt.split('T')[1].split('.')[0])
+      // console.log(new Date(chats[0].messages[0].createdAt).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true }));
 
       const chatResults = await Promise.all(chatPromises);
       const existingChats = chatResults.filter(chat => chat.messages.length > 0);
@@ -50,6 +56,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ navigation }) => {
 
     fetchChats();
   }, [isFocused]);
+  
+
 
   return (
     <View>
@@ -73,15 +81,32 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ navigation }) => {
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => navigation.navigate('ChatRoomScreen', { contact: item.name })}>
                 <View style={styles.contactItem}>
-                  <View style={[styles.initialsCircle, { backgroundColor: getRandomColor() }]}>
-                    <Text style={styles.initialsText}>{getInitials(item.name)}</Text>
+                  <View style={styles.innercontainer}>
+                    <View style={[styles.initialsCircle, { backgroundColor: getRandomColor() }]}>
+                      <Text style={styles.initialsText}>{getInitials(item.name)}</Text>
+                    </View>
+                    <View>
+                      <View style={styles.name}>
+                        <Text style={styles.contactText}>{item.name}</Text>
+                        {/* <Text style={styles.time}>{item.messages[0].createdAt.split('T')[1].split('.')[0]}</Text> */}
+                        <Text style={styles.time}>
+                {moment(item.messages[0].createdAt).format('hh:mm A')}
+              </Text>
+                      </View>
+                      <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                      <Text style={styles.messagetext}>{item.messages[0].text}</Text>
+                      <Text >{item.messages[0].createdAt.split('T')[0]}</Text>
+                      </View>
+                    </View>
                   </View>
-                  <Text style={styles.contactText}>{item.name}</Text>
+
                 </View>
+
               </TouchableOpacity>
             )}
           />
         )}
+
       </View>
       <ChatModal
         modalVisible={modalVisible}
@@ -102,24 +127,24 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    marginBottom: SCREEN_HEIGHT*0.01877934272,
-    fontWeight:'700',
-    color:'#3A4F5F'
+    marginBottom: SCREEN_HEIGHT * 0.01877934272,
+    fontWeight: '700',
+    color: '#3A4F5F'
   },
   button: {
-    marginTop:SCREEN_HEIGHT*0.02816901408,
-    width:SCREEN_WIDTH*0.36641221374,
-    height:SCREEN_HEIGHT*0.05751173708,
+    marginTop: SCREEN_HEIGHT * 0.02816901408,
+    width: SCREEN_WIDTH * 0.36641221374,
+    height: SCREEN_HEIGHT * 0.05751173708,
     backgroundColor: '#2A7BBB',
-    paddingHorizontal: SCREEN_WIDTH*0.08142493638,
-    paddingVertical: SCREEN_HEIGHT*0.01643192488,
-    borderRadius:8,
+    paddingHorizontal: SCREEN_WIDTH * 0.08142493638,
+    paddingVertical: SCREEN_HEIGHT * 0.01643192488,
+    borderRadius: 8,
   },
   buttontext: {
     color: '#fff',
     fontSize: 16,
-    fontWeight:'500',
-    lineHeight:20.8,
+    fontWeight: '500',
+    lineHeight: 20.8,
   },
   contactItem: {
     flexDirection: 'row',
@@ -128,7 +153,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     backgroundColor: "#fff",
-    width:SCREEN_WIDTH*0.89857506361,
+    width: SCREEN_WIDTH * 0.89857506361,
   },
   initialsCircle: {
     width: 40,
@@ -146,12 +171,30 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginLeft: 10,
   },
+  messagetext:
+  {
+    fontSize: 14,
+    color: '#60707D',
+    marginLeft: SCREEN_WIDTH * 0.03053435114
+
+  },
   img:
   {
-    width:SCREEN_WIDTH*0.4223918575,
-    height:SCREEN_HEIGHT*0.15157863849,
-    marginTop:SCREEN_HEIGHT*0.12558685446,
-    resizeMode:'contain',
+    width: SCREEN_WIDTH * 0.4223918575,
+    height: SCREEN_HEIGHT * 0.15157863849,
+    marginTop: SCREEN_HEIGHT * 0.12558685446,
+    resizeMode: 'contain',
 
-  }
-});
+  },
+  time:
+  {
+    marginLeft: SCREEN_WIDTH * 0.23155216285
+
+  },
+  innercontainer:
+    { flexDirection: 'row', width: 320 },
+  name:
+    { flexDirection: 'row',  width: 280, justifyContent: 'space-between' },
+  
+
+}); 

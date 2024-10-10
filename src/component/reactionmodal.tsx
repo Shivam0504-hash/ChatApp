@@ -181,4 +181,5 @@ const styles = StyleSheet.create({
     lineHeight: 20.8,
     fontWeight: '500',
   },
+  
 });
